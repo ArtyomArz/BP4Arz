@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @font-face {
+      font-family: 'SajatFont';
+      src: url('fonts/Blank River.ttf') format('truetype');
+    }
+    body {
+      background-image: url("Hatter2.png");
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: rgb(255, 255, 255);
+      font-family: 'SajatFont', 'Arial', sans-serif;
+      font-size: 23px;
+      text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
+    }
+    audio {
+      width: 600px;
+    }
+    .quote {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .footer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<audio id="audioPlayer" controls autoplay>
+  A böngésződ nem támogatja a hanglejátszót.
+</audio>
+<select id="musicSelect">
+</select>
+<div class="quote" style="font-size: 40px;">
+  "Az élet a zenéhez hasonlóan szól: néha hangos, máskor halk, de mindig szép."
+</div>
+<div class="footer">
+  Források: <a href="Forrasok.html" target="_blank">Link</a>
+</div>
+<script>
+  const audioPlayer = document.getElementById("audioPlayer");
+  const musicSelect = document.getElementById("musicSelect");
+  
+  let songs = [
+    "Zenék2/Bazsa Boki meg a Kemény - Mégegyszer.mp3",
+    "Zenék2/Boki - Ez is Megvolt Km. Indept,Flemm,Barhx.mp3",
+    "Zenék2/Boki Feat. Brigetio Fiai Km. Matykhow - Már Nem Megy.mp3",
+    "Zenék3/Utcakultúra - Fontos a Részlet (Prod by.Gold Monkey).mp3",
+    "Zenék2/4tress - Libertad.mp3",
+"Zenék2/4tress - Majd Jövök.mp3",
+"Zenék2/4tress, Bom - Majd hozza.mp3",
+"Zenék2/2344, Dolbeats - Kibasznak A Diszkóból - Remastered.mp3",
+"Zenék2/6363, Krúbi, Busa Pista, Nick Name - Textépítők.mp3",
+"Zenék2/Akkezdet Phiai - Akkezdet.mp3",
+"Zenék2/Akkezdet Phiai - Hangerdő.mp3",
+"Zenék2/Akkezdet Phiai - Miért most!.mp3",
+"Zenék2/Akkezdet Phiai, Nos'chez - Karszalag.mp3",
+"Zenék2/Antal - Meredek.mp3",
+"Zenék2/Antal, Day - Szavak Egymás Után.mp3",
+"Zenék2/Antal, Day, Zorrko - Havanna.mp3",
+"Zenék2/Azahriah, DESH, Young Fly - Lóerő.mp3",
+"Zenék2/Barbárfivérek - Legál Narkó.mp3",
+"Zenék2/Barbárfivérek - Mennydörgés.mp3",
+"Zenék2/Barbárfivérek, Killakikitt - G.E.C.O..mp3",
+"Zenék2/Barbárfivérek, Mikee Mykanic, Saiid - Butik.mp3",
+"Zenék2/Barbárfivérek, Tirpa, Saiid - Utcadiploma.mp3",
+"Zenék2/Bazsa Boki meg a Kemény - Mégegyszer.mp3",
+"Zenék2/Beerseewalk - Dezsavű.mp3",
+"Zenék2/Beerseewalk - Gerinctelen.mp3",
+"Zenék2/Beerseewalk - Globál.mp3",
+"Zenék2/Beerseewalk - Őszintébe.mp3",
+"Zenék2/Beerseewalk - Picsa.mp3",
+"Zenék2/Beerseewalk - Pusziket.mp3",
+"Zenék2/Beerseewalk - Utcaszagú.mp3",
+"Zenék2/Beerseewalk - Visszapörgetném.mp3",
+"Zenék2/Bloose Broavaz, Deego - Csak egy levél.mp3",
+"Zenék2/Bloose Broavaz, Diggieman, Siska Finuccsi, Landi - Lángtenger.mp3",
+"Zenék2/Bloose Broavaz, Nomagróf, Deego, B-közép - Pulzus.mp3",
+"Zenék2/Bloose Broavaz, Tibbah, TKYD - Város.mp3",
+"Zenék2/Boki - Ez is Megvolt Km. Indept,Flemm,Barhx.mp3",
+"Zenék2/Boki Feat. Brigetio Fiai Km. Matykhow - Már Nem Megy.mp3",
+"Zenék2/Brigád - A Brigád Akcióban.mp3",
+"Zenék2/Brigád - Angyalpor.mp3",
+"Zenék2/Brigád - Aréna.mp3",
+"Zenék2/Brigád - Backup6od.mp3",
+"Zenék2/Brigád - Elveszve Pesten.mp3",
+"Zenék2/Brigád - Eszközök.mp3",
+"Zenék2/Brigád - Holvanmá.mp3",
+"Zenék2/Brigád - Macska-Egér Játék.mp3",
+"Zenék2/Brigád - Nem Neked Való.mp3",
+"Zenék2/Brigád, Nagy Laci - Rajongó.mp3",
+"Zenék2/BSW - A Ti Gondotok.mp3",
+"Zenék2/BSW - Amíg Bírom.mp3",
+"Zenék2/Busa Pista - Ha Én Egyszer.mp3",
+"Zenék2/Deego - Hova Tartozol.mp3",
+"Zenék2/Deego - Nem Érted Ezt.mp3",
+"Zenék2/Deego, Mulató Aztékok, Phat - Örök Szerelem.mp3",
+"Zenék2/DSP - Alvajárók.mp3",
+"Zenék2/DSP - Egyszer Fent, Egyszer Lent.mp3",
+"Zenék2/DSP - Enyém Ez A Nap.mp3",
+"Zenék2/DSP - Mirelit Pizza.mp3",
+"Zenék2/DSP, BKP, Suppah - Úgy Akarok Élni.mp3",
+"Zenék2/DSP, Furakor - Nem Baszol Fel.mp3",
+"Zenék2/DSP, Siska Finuccsi, Phat - Lakótelep.mp3",
+"Zenék2/Essemm - 112.mp3",
+"Zenék2/Essemm - Csak Mulatunk.mp3",
+"Zenék2/Essemm - Csak pörög.mp3",
+"Zenék2/Essemm - Eleget fújtad.mp3",
+"Zenék2/Essemm - Itthon.mp3",
+"Zenék2/Essemm - Miért jó.mp3",
+"Zenék2/Essemm - Písz.mp3",
+"Zenék2/Essemm - Piszkos.mp3",
+"Zenék2/Essemm - R4jkór.mp3",
+"Zenék2/Essemm - Senki.mp3",
+"Zenék2/Essemm - Tegnapom a mában.mp3",
+"Zenék2/Essemm, ANTAL - Ki Van a Cerka.mp3",
+"Zenék2/Essemm, Beerseewalk - Október.mp3",
+"Zenék2/Essemm, BSW - Volt már jobb is.mp3",
+"Zenék2/Essemm, Deego - Spanod Voltam.mp3",
+"Zenék2/Essemm, FuraCsé - Kamukatona.mp3",
+"Zenék2/Essemm, RA - Hiéna.mp3",
+"Zenék2/Essemm, RA, Süti, FuraCsé - Fel az égig.mp3",
+"Zenék2/Essemm, Rico, Hibrid - Ilyen Ez a Nap.mp3",
+"Zenék2/Essemm, Smith - Könnyű álmot hozzon.mp3",
+"Zenék2/Essemm, Sub Bass Monster - Volt és lesz.mp3",
+"Zenék2/Essemm, Süti - Ahova ti sosem jöttök.mp3",
+"Zenék2/Essemm, Süti - Dzsordzsó Dzsörmen & Tom Vájnör.mp3",
+"Zenék2/Fluor - Egy Pillanat.mp3",
+"Zenék2/Funktasztikus - Absztrakt, Aszfalt Funk.mp3",
+"Zenék2/Funktasztikus - Élek És Virulok.mp3",
+"Zenék2/Funktasztikus - Halkan Trombitál Az Isten A Háztetőn.mp3",
+"Zenék2/Funktasztikus - Vérzik a szívem.mp3",
+"Zenék2/Funktasztikus, MC Cave, Shocker Rhymes, D.R.A.Cool-A., Thysta - Beteg Világ.mp3",
+"Zenék2/Funktasztikus, Siska - Vajon, Mit Mondanának.mp3",
+"Zenék2/Funktasztikus, Sub Bass Monster - Fanyarország.mp3",
+"Zenék2/Gege, Oriza - álmos.mp3",
+"Zenék2/Jam Balaya, AKR, El Magico - Emberundor.mp3",
+"Zenék2/Ketioz, Majmok Bolygója, Phat - Vietkong.mp3",
+"Zenék2/Killakikitt - 187.mp3",
+"Zenék2/Killakikitt - A Tűzszünetnek Vége Feat Harakiri.mp3",
+"Zenék/Killakikitt - Gádzsik.mp3",
+"Zenék/Killakikitt - Kiválasztott.mp3",
+"Zenék/Killakikitt - Legenda - Produced By Al Tarba.mp3",
+"Zenék/Killakikitt - Miezahang.mp3",
+"Zenék/Killakikitt - Morning show.mp3",
+"Zenék/Killakikitt - Nem Lakik Itt Senki.mp3",
+"Zenék/Killakikitt - Nyugodt vagyok.mp3",
+"Zenék/Killakikitt - Péntek 13.mp3",
+"Zenék/Killakikitt - Picsán Rúglak - Produced By J. Scrilla, Guns N Butter.mp3",
+"Zenék/Killakikitt - Szellemjárás.mp3",
+"Zenék/Killakikitt - Térj Magadhoz - Produced By Al Tarba.mp3",
+"Zenék/Killakikitt, Gitano - Haladok.mp3",
+"Zenék/Killakikitt, Ketioz - A Nevem.mp3",
+"Zenék/Killakikitt, Mikee Mykanic, Ketioz - Slang Csempészek.mp3",
+"Zenék/Killakikitt, Nks - A Kocka El Van Vetve - Produced By Snowgoons.mp3",
+"Zenék/Killakikitt, Nks - Brigád.mp3",
+"Zenék/Killakikitt, PKO - Elvitt Az Ördög.mp3",
+"Zenék/Killakikitt, Saiid - Átok - Produced By Anno Domini & Aza.mp3",
+"Zenék/Killakikitt, Saiid - Az Igazi Kezdet.mp3",
+"Zenék/Killakikitt, Turan Khan - Javíthatatlan.mp3",
+"Zenék/Laza Laca - Fatcap.mp3",
+"Zenék/Laza Laca, Lusta Geri - Herevere.mp3",
+"Zenék/Mikee Mykanic, Dolbeats - Két Bóló - Edited.mp3",
+"Zenék/Nks - Bedrop.mp3",
+"Zenék/Nks - Budapesti véreres szemek.mp3",
+"Zenék/Nks - Dealerek Álma.mp3",
+"Zenék/Nks - Ég velem.mp3",
+"Zenék/Nks - Főnök.mp3",
+"Zenék/Nks - Gondolj majd rám.mp3",
+"Zenék/Nks - Habeastie Boys.mp3",
+"Zenék/Nks - Killvaker.mp3",
+"Zenék/Nks - Kutyahús.mp3",
+"Zenék/Nks - Magyarország.mp3",
+"Zenék/Nks - Mint A Sfinx.mp3",
+"Zenék/Nks - Multi filter.mp3",
+"Zenék/Nks - Oh La La.mp3",
+"Zenék/Nks - Oh-La-La 2.mp3",
+"Zenék/Nks - Presszó mint száz.mp3",
+"Zenék/Nks - Vegyetek jót ha tudtok.mp3",
+"Zenék/Nks, Bankos - A Legpestibb.mp3",
+"Zenék/Nks, Ketioz - Cicahús.mp3",
+"Zenék/Nks, Killakikitt - Ön Kinél Bankol.mp3",
+"Zenék/Nks, Saiid - Gucci.mp3",
+"Zenék/Nks, UNKNOW SUSPECTS(T.o.t.o._210) SEZA - A rap őrangyalai.mp3",
+"Zenék/PKO - Picsa A Corvinon.mp3",
+"Zenék/PKO, Saiid - Mozdulj.mp3",
+"Zenék/Pogány Induló - Fent-Lent.mp3",
+"Zenék/Pogány Induló - Gettó csirke.mp3",
+"Zenék/Pogány Induló - Jay és néma Bob.mp3",
+"Zenék/Pogány Induló - Vágod.mp3",
+"Zenék/Pogány Induló, Grasa - Fienduló.mp3",
+"Zenék/Rizkay, Tibbah, Siska Finuccsi - Beatmaking 7..mp3",
+"Zenék/Saiid - El lett flesselve.mp3",
+"Zenék/Saiid - Nállunk.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz - 1xV.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz - Életrevalók.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz - Kellemetlenkedő Pasasok.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz - Seggíthetek.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz - Stonehenge.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz, Aza - NeHallgassRám.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz, Aza - RUM-DMC.mp3",
+"Zenék/ScarcityBP, Mikee Mykanic, Ketioz, Tirpa - Nemüthetlekmeg.mp3",
+"Zenék/Siska Finuccsi - Halott finuccsi.mp3",
+"Zenék/Siska Finuccsi - Jön A Tré.mp3",
+"Zenék/Siska Finuccsi - Meg van írva.mp3",
+"Zenék/Siska Finuccsi, Hősök, Deego, DJ 50 - Nosztalgia (Nem Lesz Vége Soha).mp3",
+"Zenék/Siska Finuccsi, Jam Balaya, Nks, Phat, Ofkorz, Duffchy, Kontroll, Kool Kasko - Rapszar.mp3",
+"Zenék/Siska Finuccsi, TKYD, Tibbah, Diggieman - Silent Hill.mp3",
+"Zenék/Siska Finuccsi, Turan Khan - Szenvedés Útja.mp3",
+"Zenék/Sör És Fű - Ábránd.mp3",
+"Zenék/Sör És Fű - Annyi Szó.mp3",
+"Zenék/Sör És Fű - Az Ember.mp3",
+"Zenék/Sör És Fű - Bazár.mp3",
+"Zenék/Sör És Fű - Feszület.mp3",
+"Zenék/Sör És Fű - Wildok.mp3",
+"Zenék/Sör És Fű, Bankos, Vegaz - Miénk.mp3",
+"Zenék/Sör És Fű, Gege - Döntő.mp3",
+"Zenék/Sub Bass Monster - 4 ütem.mp3",
+"Zenék/Sub Bass Monster - Mákvirág.mp3",
+"Zenék/Sub Bass Monster - Pörög a fekete lemez.mp3",
+"Zenék3/Sub Bass Monster - Sebességmámor",
+"Zenék3/Sub Bass Monster - Gyulafirátót",
+"Zenék3/Mista Slota.mp3",
+"Zenék/Tirpa - A Bukott Bálvány.mp3",
+"Zenék/Tirpa - A Vállalhatatlan.mp3",
+"Zenék/Tirpa - Elkaplak.mp3",
+"Zenék/Tirpa - Fertőz.mp3",
+"Zenék/Tirpa - Két Vállal A Földön.mp3",
+"Zenék/Tirpa - Magamba Bízok.mp3",
+"Zenék/Tirpa - Magány.mp3",
+"Zenék/Tirpa - Megvagy.mp3",
+"Zenék/Tirpa - Mélypont.mp3",
+"Zenék/Tirpa - Minden Jó.mp3",
+"Zenék/Tirpa - Nincs Lehetetlen.mp3",
+"Zenék/Tirpa - Túltoltam.mp3",
+"Zenék/Tirpa - Visszaeső.mp3",
+"Zenék/Tirpa, Aza - Az Kell Ami Nincs.mp3",
+"Zenék/Tirpa, Aza - Gyilkos Krónikák.mp3",
+"Zenék/Tirpa, Aza - Halállista.mp3",
+"Zenék/Tirpa, Aza - Kötelező Oltás.mp3",
+"Zenék/Tirpa, Aza, nbs - A Múlt.mp3",
+"Zenék/Tirpa, Fiatal Veterán, 4tress - Fekete mamba.mp3",
+"Zenék/Tirpa, Mikee Mykanic - Kérdés.mp3",
+"Zenék/Tirpa, Mikee Mykanic, Aza - Elitrack.mp3",
+"Zenék/Tirpa, PKO - Vigyázz.mp3",
+"Zenék/Tirpa, Siska Finuccsi, Ketioz, Aza - Királyok.mp3",
+"Zenék/Tirpa, TKYD - Felbecsülhetetlen.mp3",
+"Zenék/TKYD - A Valóság Szerintem.mp3",
+"Zenék/TKYD - Az Üzenet.mp3",
+"Zenék/TKYD - Fekete Királynő.mp3",
+"Zenék/TKYD - Van Bennem Egy Világ.mp3",
+"Zenék3/TKYD, Day - Kívülállók.mp3",
+"Zenék3/TKYD, Deego - A Boldogság Kék Madara.mp3",
+"Zenék3/Vészk'járat, Saiid, Kool Kasko - Életflash.mp3",
+"Zenék3/Vicc Beatz - Kedvencek Temetője.mp3",
+"Zenék3/Vicc Beatz, Saiid - Pszichomatematika.mp3",
+"Zenék3/Vicc Beatz, Siska Finuccsi - Köszönöm.mp3"
+    // Itt add hozzá további zenék elérési útvonalait
+  ];
+
+  let currentSongIndex = 0;
+
+  audioPlayer.addEventListener("ended", () => {
+    currentSongIndex = (currentSongIndex + 1) % songs.length;
+    playCurrentSong();
+  });
+
+  musicSelect.addEventListener("change", function () {
+    const selectedIndex = musicSelect.selectedIndex;
+    currentSongIndex = selectedIndex;
+    playCurrentSong();
+  });
+
+  function playCurrentSong() {
+    if (songs.length > 0) {
+      const currentSong = songs[currentSongIndex];
+      audioPlayer.src = currentSong;
+      audioPlayer.load();
+      audioPlayer.play();
+      updateSelectMenu(); // Frissíti a legördülő lista zenecímeit
+    }
+  }
+
+  function updateSelectMenu() {
+    const options = musicSelect.options;
+    for (let i = 0; i < options.length; i++) {
+      if (i === currentSongIndex) {
+        options[i].selected = true; // Kiválasztja az aktuális dalt a legördülő listában
+      }
+    }
+  }
+
+  // Hozzáadja a zenéket a legördülő listához
+  songs.forEach((song, index) => {
+    const option = document.createElement("option");
+    option.value = song;
+    option.text = song.split("/").pop().replace(".mp3", ""); // A zenének csak a fájlneve jelenik meg a listában
+    musicSelect.appendChild(option);
+  });
+
+  // Az oldal betöltésekor játssza le az első dalt és beállítja a zenecímet
+  playCurrentSong();
+</script>
+</html>
