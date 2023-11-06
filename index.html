@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>BP4Arz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Mobilbarát nézet -->
   <style>
     @font-face {
       font-family: 'SajatFont';
@@ -35,6 +37,28 @@
     }
   </style>
 </head>
+
+<script>
+  function adjustForScreenSize() {
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 768) {
+      // Mobilkészülékek esetén alkalmazza a megfelelő stílusokat
+      document.body.style.fontSize = "14px";
+      document.querySelector(".quote").style.fontSize = "20px";
+    } else {
+      // Visszaállítja az alapértelmezett stílusokat
+      document.body.style.fontSize = "16px";
+      document.querySelector(".quote").style.fontSize = "24px";
+    }
+  }
+
+  // Oldal betöltésekor alkalmazza az optimalizált stílusokat
+  adjustForScreenSize();
+
+  // Az ablak átméretezésekor is alkalmazza az optimalizált stílusokat
+  window.addEventListener("resize", adjustForScreenSize);
+</script>
 
 <audio id="audioPlayer" controls autoplay>
   A böngésződ nem támogatja a hanglejátszót.
