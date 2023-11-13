@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>BP4Arz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Mobilbarát nézet -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    /* A meglévő stílusok itt maradnak... */
+    /* Your existing styles */
     @font-face {
       font-family: 'SajatFont';
       src: url('fonts/Blank River.ttf') format('truetype');
@@ -25,25 +25,34 @@
       font-size: 23px;
       text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
     }
+    /* Additional styles for dropdown */
+    .playlist-dropdown {
+      margin-top: 20px;
+    }
   </style>
 </head>
-
 <body>
-  <!-- Itt marad a többi tartalom, de itt jelenítjük meg majd a YouTube lejátszót -->
+  <!-- Your existing content -->
+  <iframe class="youtubePlaylist" id="playlistFrame" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL4IG81CgRTuG1Q3PMRc89CC5NJ9m_ly69" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   
-  <!-- Itt jelenik meg a YouTube lejátszó -->
-  <iframe class="youtubePlaylist" width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=PL4IG81CgRTuG1Q3PMRc89CC5NJ9m_ly69" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  
-  <!-- Az alábbi script blokk maradhat változatlanul -->
+  <div class="playlist-dropdown">
+    <select id="playlistSelect" onchange="changePlaylist()">
+      <option value="PL4IG81CgRTuG1Q3PMRc89CC5NJ9m_ly69">Playlist 1</option>
+      <option value="PL4IG81CgRTuGkDpdH_QlzY8l0vRyz0qrK">Playlist 2</option>
+    </select>
+  </div>
+
   <script>
-    const audioPlayer = document.getElementById("audioPlayer");
-    const musicSelect = document.getElementById("musicSelect");
-
-    // A meglévő funkciók és kódok maradhatnak változatlanul...
+    function changePlaylist() {
+      const playlistSelect = document.getElementById('playlistSelect');
+      const newPlaylistId = playlistSelect.value;
+      const currentSrc = `https://www.youtube.com/embed/videoseries?list=${newPlaylistId}`;
+      document.getElementById('playlistFrame').src = currentSrc;
+    }
   </script>
-
-  <div class="quote" style="font-size: 40px;">
-    "Amikor Isten az Embert megteremtette maga is elcsodálkozott. Azt mondta: „Úgy alkottam, hogy testében is szellemi legyen. S íme: testivé lett szellemében is."
+  
+  <div class="quote" style="font-size: 40px; text-align: center;">
+    "Amikor Isten az Embert megteremtette maga is elcsodálkozott. Azt mondta: „Úgy alkottam, hogy testében is szellemi legyen. S íme: testivé lett szellemében is."  
   </div>
 </body>
 </html>
